@@ -1,0 +1,6 @@
+.venv
+training_positive.json
+training_negative.json
+training.1600000.processed.noemoticon.csv
+classifications/model #2 - rerunning/classificaitons_fake.json
+classifications/model #2 - rerunning/classifications_real.json
