@@ -68,12 +68,12 @@ with open("real1.pkl", 'rb') as file:
 positive_training_tweets, negative_training_tweets = load_training_data()
 
 
-fake_tweets_unmodified = [tweet['tweet'] for tweet in tqdm(fake_tweets)]
-article_sources = [tweet['article_title'] for tweet in tqdm(fake_tweets)]
-fake_tweets = [word_tokenize(tweet['tweet']) for tweet in tqdm(fake_tweets)]
+# fake_tweets_unmodified = [tweet['tweet'] for tweet in tqdm(fake_tweets)]
+# article_sources = [tweet['article_title'] for tweet in tqdm(fake_tweets)]
+# fake_tweets = [word_tokenize(tweet['tweet']) for tweet in tqdm(fake_tweets)]
 
-# Clean up training / raw data
-fake_tweets = [remove_noise(tweet) for tweet in tqdm(fake_tweets)]
+# # Clean up training / raw data
+# fake_tweets = [remove_noise(tweet) for tweet in tqdm(fake_tweets)]
 
 # Load in dict format
 def get_tweets_for_model(cleaned_tokens_list):
@@ -83,7 +83,7 @@ def get_tweets_for_model(cleaned_tokens_list):
 positive_training_tweets = get_tweets_for_model(positive_training_tweets)
 negative_training_tweets = get_tweets_for_model(negative_training_tweets)
 
-fake_tweets = get_tweets_for_model(fake_tweets)
+# fake_tweets = get_tweets_for_model(fake_tweets)
 
 
 # Model Training
