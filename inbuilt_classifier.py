@@ -13,10 +13,10 @@ from nltk.sentiment import SentimentIntensityAnalyzer
 from random import shuffle
 
 
-with open("real1.pkl", 'rb') as file:
+with open("real1.pkl", "rb") as file:
     real_tweets = pickle.load(file)
 
-with open("fake1.pkl", 'rb') as file:
+with open("fake1.pkl", "rb") as file:
     fake_tweets = pickle.load(file)
 
 classifier = SentimentIntensityAnalyzer()
@@ -27,25 +27,25 @@ real_output = []
 fake_output = []
 
 for tweet in real_tweets:
-    probs = classifier.polarity_scores(tweet['tweet'])  
+    probs = classifier.polarity_scores(tweet["tweet"])
     output = {
-        "tweet": tweet['tweet'],
-        "article_title": tweet['article_title'],
-        "positive_score": probs['pos'],
-        "negative_score": probs['neg'],
-        "neutral_score": probs['neu'],
+        "tweet": tweet["tweet"],
+        "article_title": tweet["article_title"],
+        "positive_score": probs["pos"],
+        "negative_score": probs["neg"],
+        "neutral_score": probs["neu"],
     }
     real_output.append(output)
 
 for tweet in fake_tweets:
-    probs = classifier.polarity_scores(tweet['tweet'])  
+    probs = classifier.polarity_scores(tweet["tweet"])
     classifier.sentiment_valence
     output = {
-        "tweet": tweet['tweet'],
-        "article_title": tweet['article_title'],
-        "positive_score": probs['pos'],
-        "negative_score": probs['neg'],
-        "neutral_score": probs['neu'],
+        "tweet": tweet["tweet"],
+        "article_title": tweet["article_title"],
+        "positive_score": probs["pos"],
+        "negative_score": probs["neg"],
+        "neutral_score": probs["neu"],
     }
     fake_output.append(output)
 

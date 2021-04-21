@@ -16,7 +16,7 @@ from nltk import pos_tag
 
 #         # POS Tagging
 #         tweet = pos_tag(tweet)
-        
+
 #         processed_tweets.append(tweet)
 
 #     return processed_tweets
@@ -30,18 +30,17 @@ from nltk import pos_tag
 #         if token.startswith("http://") or token.startswith("https://"):
 #             continue
 #         if token.startswith("#") and exclude_hashtags == True:
-#             continue 
+#             continue
 #         if token == "RT":
 #             continue
-        
+
 #         token = token.replace('\n', '')
 #         token = token.replace('\xa0', '')
 #         token = token.replace('&amp;', 'and')
 
 
-            
 #         processed_tweet.append(token)
-    
+
 #     return processed_tweet
 
 # with open("out.pkl", 'rb') as file:
@@ -49,5 +48,5 @@ from nltk import pos_tag
 
 # tweets = preprocess_tweets(tweets)
 
-with open("processed_out.pkl", 'wb') as file:
-    pickle.dump(tweets, file) 
+with open("processed_out.pkl", "wb") as file:
+    pickle.dump(tweets, file)
