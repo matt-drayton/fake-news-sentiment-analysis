@@ -44,22 +44,36 @@ negative_dataset = [(tweet, "Negative") for tweet in negative_training_tweets]
 total_dataset = positive_dataset + negative_dataset
 random.shuffle(total_dataset)
 
-# TODO: Different training sets for different models. Naive can use full. Others are limited by capabilities.
-train_data = total_dataset[:8000]
-print(len(train_data))
-test_data = total_dataset[8000:]
+# Naive Bayes
+naive_train_data = total_dataset[: int(len(total_dataset) * 0.7)]
+naive_test_data = total_dataset[int(len(total_dataset) * 0.7) :]
+
+# Logistic
+logistic_train_data = total_dataset[:10000]
+logistic_test_data = total_dataset[10000:]
+
+# SVC
+svc_train_data = total_dataset[:8000]
+svc_test_data = total_dataset[8000:]
 
 classifiers = {
-    "naive": NaiveBayesClassifier.train(train_data),
+    "naive": NaiveBayesClassifier.train(naive_train_data),
     "logistic": classify.SklearnClassifier(LogisticRegression()),
     "svc": classify.SklearnClassifier(SVC(kernel="linear", probability=True)),
 }
 
+data = {
+    "naive": (naive_train_data, naive_test_data),
+    "logistic": (logistic_train_data, logistic_test_data),
+    "svc": (svc_train_data, svc_test_data),
+}
+
 for name, classifier in classifiers.items():
     print("Training model " + name)
+    train, test = data[name]
     if name != "naive":
-        classifier.train(train_data)
-    accuracy = classify.accuracy(classifier, test_data)
+        classifier.train(train)
+    accuracy = classify.accuracy(classifier, test)
     print(f"Exporting classifier {name} with accuracy {accuracy}.")
     with open(f"{name}.pkl", "wb") as file:
         pickle.dump(classifier, file)

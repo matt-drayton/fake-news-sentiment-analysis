@@ -3,46 +3,10 @@ from datetime import datetime
 from tqdm import tqdm
 import json
 from nltk.tokenize import word_tokenize
-from nltk.corpus import stopwords
 import re, string, random
-from nltk import pos_tag
-from nltk.stem.wordnet import WordNetLemmatizer
-
+from utils import remove_noise
+from rule_based_classifier import RuleBasedClassifier
 LOG = True
-
-
-def remove_noise(tweet_tokens):
-    stop_words = stopwords.words("english")
-
-    cleaned_tokens = []
-
-    for token, tag in pos_tag(tweet_tokens):
-        token = re.sub(
-            "http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+#]|[!*\(\),]|"
-            "(?:%[0-9a-fA-F][0-9a-fA-F]))+",
-            "",
-            token,
-        )
-        token = re.sub("(@[A-Za-z0-9_]+)", "", token)
-
-        if tag.startswith("NN"):
-            pos = "n"
-        elif tag.startswith("VB"):
-            pos = "v"
-        else:
-            pos = "a"
-
-        lemmatizer = WordNetLemmatizer()
-        token = lemmatizer.lemmatize(token, pos)
-
-        if (
-            len(token) > 0
-            and token not in string.punctuation
-            and token.lower() not in stop_words
-        ):
-            cleaned_tokens.append(token.lower())
-    return cleaned_tokens
-
 
 def log(text):
     if LOG:
@@ -65,7 +29,7 @@ def load_models():
 
 naivebayes, svc, logistic = load_models()
 
-classifiers = {"naive": naivebayes, "svc": svc, "logistic": logistic}
+classifiers = {"naive": naivebayes, "svc": svc, "logistic": logistic, "rulebased": RuleBasedClassifier()}
 
 log("Loading real tweets")
 with open("real1.pkl", "rb") as file:
@@ -86,16 +50,20 @@ def _classify_tweets(tweets, raw_tweets, article_sources, classifier):
     for tweet, raw_tweet, article_source in tqdm(
         zip(tweets, raw_tweets, article_sources)
     ):
-
         joined_tweet = " ".join(tweet.keys())
-        probs = classifier.prob_classify(tweet)
+        if type(classifier) is RuleBasedClassifier:
+            positive_score = classifier.score(raw_tweet)
+            classification = classifier.classify(raw_tweet)
+        else:
+            probs = classifier.prob_classify(tweet)
+            positive_score = probs.prob('Positive')
+            classification = classifier.classify(tweet)
         output = {
             "tweet": joined_tweet,
             "raw_tweet": raw_tweet,
             "article_title": article_source,
-            "classification": classifier.classify(tweet),
-            "positive_score": probs.prob("Positive"),
-            "negative_score": probs.prob("Negative"),
+            "classification": classification,
+            "positive_score": positive_score,
         }
         total_output.append(output)
     return total_output

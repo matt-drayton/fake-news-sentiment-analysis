@@ -1,33 +1,18 @@
 import os
 import random
 import json
+import pickle
 
-
-BASEURL = os.getcwd() + "/fakenewsanalysis/fakenewsnet_dataset/politifact/"
 
 positive_tweets = []
 objective_tweets = []
 negative_tweets = []
 
 
-def tweet_generator():
+def tweet_generator(fake_tweets, real_tweets):
     while True:
-        real_or_fake = random.choice(["real/", "fake/"])
-        directory = BASEURL + real_or_fake
-
-        rand_tweet_json = None
-
-        while rand_tweet_json is None:
-            try:
-                article = random.choice(os.listdir(directory))
-                article_path = directory + article + "/tweets/"
-                rand_tweet_json = article_path + random.choice(os.listdir(article_path))
-            except:
-                pass
-
-        with open(rand_tweet_json) as tweet_file:
-            tweet_data = json.load(tweet_file)
-            yield tweet_data["text"]
+        tweets = random.choice([fake_tweets, real_tweets])
+        yield random.choice(tweets)["tweet"]
 
 
 def classify_tweet(tweet):
@@ -61,12 +46,17 @@ def classify_tweet(tweet):
 
 
 if __name__ == "__main__":
+    with open("real1.pkl", "rb") as file:
+        real_tweets = pickle.load(file)
+
+    with open("fake1.pkl", "rb") as file:
+        fake_tweets = pickle.load(file)
 
     print(
         "Welcome to the data labeller. Please label the sentiment of the tweet(s) you are shown as follows: \n(p: Positive; _: Objective; n: Negative; q: Exit)"
     )
 
-    tweet_gen = tweet_generator()
+    tweet_gen = tweet_generator(fake_tweets, real_tweets)
     for tweet in tweet_gen:
         if not classify_tweet(tweet):
             break

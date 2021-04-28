@@ -6,7 +6,7 @@ import pickle
 from collections import defaultdict
 from tqdm import tqdm
 import re
-
+import preprocess
 BASEURL = os.getcwd() + "/fakenewsanalysis/fakenewsnet_dataset/politifact/"
 LOG = False
 
@@ -14,18 +14,6 @@ LOG = False
 def log(str):
     if LOG:
         print(str)
-
-
-def preprocess(tweet):
-    new_tweet = tweet
-    new_tweet = re.sub(r"http\S+", "", new_tweet)  # Remove URLs
-    new_tweet = re.sub(r"@[A-Za-z0-9_-]*", "", new_tweet)  # Remove Handles
-    new_tweet = re.sub(r"RT+", "", new_tweet)  # Remove RT
-    new_tweet = re.sub(r"\\.+?(\b)", "", new_tweet)  # Remove newlines, unicodes, etc
-    new_tweet = re.sub(r"\bvia\b", "", new_tweet)  # Remove 'via' from tweet
-    new_tweet = re.sub(r"#", "", new_tweet)  # Remove # signs
-    return new_tweet
-
 
 def load_from_file(file):
     # Optimisation: Defaultdict rather than list: O(n) -> O(1)
