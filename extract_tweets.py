@@ -1,19 +1,14 @@
 import os
 import json
-import nltk
-from nltk.corpus import twitter_samples
 import pickle
 from collections import defaultdict
 from tqdm import tqdm
 import re
 import preprocess
+import datetime
+from utils import log
 BASEURL = os.getcwd() + "/fakenewsanalysis/fakenewsnet_dataset/politifact/"
-LOG = False
 
-
-def log(str):
-    if LOG:
-        print(str)
 
 def load_from_file(file):
     # Optimisation: Defaultdict rather than list: O(n) -> O(1)

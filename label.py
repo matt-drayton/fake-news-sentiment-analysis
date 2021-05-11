@@ -46,10 +46,10 @@ def classify_tweet(tweet):
 
 
 if __name__ == "__main__":
-    with open("real1.pkl", "rb") as file:
+    with open("real_cleaned.pkl", "rb") as file:
         real_tweets = pickle.load(file)
 
-    with open("fake1.pkl", "rb") as file:
+    with open("fake_cleaned.pkl", "rb") as file:
         fake_tweets = pickle.load(file)
 
     print(

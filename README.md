@@ -20,7 +20,7 @@ This script applies more pre-processing to the **FakeNewsNet** dataset. Namely, 
 
 It will also remove article titles from tweets. Tweets that are of very low length after having had the title removed will be excluded from further analysis. 
 
-This script outputs to `fake1.pkl` and `real1.pkl`. 
+This script outputs to `fake_cleaned.pkl` and `real_cleaned.pkl`. 
 
 ## 4. train.py
 
