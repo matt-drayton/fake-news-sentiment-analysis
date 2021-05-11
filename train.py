@@ -10,6 +10,7 @@ from utils import log
 from rule_based_classifier import RuleBasedClassifier
 from sklearn.metrics import confusion_matrix
 
+
 def load_training_data():
     with open("training_positive.json", "r") as file:
         positives = json.load(file)
@@ -17,16 +18,21 @@ def load_training_data():
         negatives = json.load(file)
     return positives, negatives
 
+
 def get_tweets_for_model(cleaned_tokens_list):
     for tweet_tokens in cleaned_tokens_list:
         yield dict([token, True] for token in tweet_tokens)
+
 
 def create_confusion_matrix(model, data):
     tweets = [point[0] for point in data]
     true_labels = [point[1] for point in data]
     pred_labels = model.classify_many(tweets)
 
-    return confusion_matrix(y_true=true_labels, y_pred=pred_labels, labels=['Positive', 'Negative'])
+    return confusion_matrix(
+        y_true=true_labels, y_pred=pred_labels, labels=["Positive", "Negative"]
+    )
+
 
 if __name__ == "__main__":
     # Load tweet examples to train model
@@ -35,7 +41,6 @@ if __name__ == "__main__":
 
     positive_training_tweets = get_tweets_for_model(positive_training_tweets)
     negative_training_tweets = get_tweets_for_model(negative_training_tweets)
-
 
     # Model Training
     positive_dataset = [(tweet, "Positive") for tweet in positive_training_tweets]
@@ -90,5 +95,4 @@ if __name__ == "__main__":
         with open(f"./classifiers/{name}.pkl", "wb") as file:
             pickle.dump(classifier, file)
 
-    
     log("Finished Executing.")

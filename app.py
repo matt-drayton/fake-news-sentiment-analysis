@@ -31,16 +31,18 @@ def load_models():
 
     return (naivebayes, svc, logistic)
 
+
 def load_models_meta():
-    with open("./classifiers/meta_naive.pkl", 'rb') as file:
+    with open("./classifiers/meta_naive.pkl", "rb") as file:
         naive = pickle.load(file)
-    with open("./classifiers/meta_svc.pkl", 'rb') as file:
+    with open("./classifiers/meta_svc.pkl", "rb") as file:
         svc = pickle.load(file)
-    with open("./classifiers/meta_logistic.pkl", 'rb') as file:
+    with open("./classifiers/meta_logistic.pkl", "rb") as file:
         logistic = pickle.load(file)
-    with open("./classifiers/meta_rulebased.pkl", 'rb') as file:
+    with open("./classifiers/meta_rulebased.pkl", "rb") as file:
         rulebased = pickle.load(file)
     return {"naive": naive, "svc": svc, "lr": logistic, "rb": rulebased}
+
 
 def load_results(model):
     with open(f"./results/{model}/classifications_fake.json", "r") as file:
@@ -193,25 +195,36 @@ def display_data(model):
         nbins=20,
     )
 
-    
-    matrix_figure = ff.create_annotated_heatmap(model_meta['conf_matrix'], x=["Positive", "Negative"], y=["Positive", "Negative"])
-    matrix_figure.add_annotation(dict(font=dict(color="black",size=14),
-                        x=0.5,
-                        y=-0.15,
-                        showarrow=False,
-                        text="Predicted value",
-                        xref="paper",
-                        yref="paper"))
-    matrix_figure.add_annotation(dict(font=dict(color="white",size=14),
-                        x=0,
-                        y=0.5,
-                        showarrow=False,
-                        text="Real value",
-                        textangle=-90,
-                        xref="paper",
-                        yref="paper"))
+    matrix_figure = ff.create_annotated_heatmap(
+        model_meta["conf_matrix"],
+        x=["Positive", "Negative"],
+        y=["Positive", "Negative"],
+    )
+    matrix_figure.add_annotation(
+        dict(
+            font=dict(color="black", size=14),
+            x=0.5,
+            y=-0.15,
+            showarrow=False,
+            text="Predicted value",
+            xref="paper",
+            yref="paper",
+        )
+    )
+    matrix_figure.add_annotation(
+        dict(
+            font=dict(color="white", size=14),
+            x=0,
+            y=0.5,
+            showarrow=False,
+            text="Real value",
+            textangle=-90,
+            xref="paper",
+            yref="paper",
+        )
+    )
     matrix_figure.update_layout(margin=dict(t=50, l=200))
-    matrix_figure['data'][0]['showscale'] = True
+    matrix_figure["data"][0]["showscale"] = True
 
     return fig, matrix_figure, accuracy_stat, combined_stats, fake_stats, real_stats
 

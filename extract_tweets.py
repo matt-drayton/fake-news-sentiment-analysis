@@ -7,6 +7,7 @@ import re
 import preprocess
 import datetime
 from utils import log
+
 BASEURL = os.getcwd() + "/fakenewsanalysis/fakenewsnet_dataset/politifact/"
 
 

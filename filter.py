@@ -28,7 +28,7 @@ def sort_by_substring_percentage(tweet):
 
 
 def remove_article_title(tweet):
-    """Removes the largest substring of an article's title from a tweet 
+    """Removes the largest substring of an article's title from a tweet
 
     Args:
         tweet: Tweet JSON containing text and article's title
@@ -48,7 +48,7 @@ def clean_tweets(tweets):
     """Clean all tweets, removing article's titles from their text
 
     Args:
-        tweets (List): A list of tweet JSONs   
+        tweets (List): A list of tweet JSONs
 
     Returns:
         tweets: A list of cleaned tweet JSONs
@@ -65,7 +65,8 @@ def clean_tweets(tweets):
             continue
     return output
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     log("Loading tweets")
     with open("fake.pkl", "rb") as file:
         fake_tweets = pickle.load(file)

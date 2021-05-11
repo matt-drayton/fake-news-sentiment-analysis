@@ -5,6 +5,8 @@ import pandas as pd
 import numpy as np
 import pickle
 from tqdm import tqdm
+
+
 class RuleBasedClassifier:
     def __init__(self):
         self.dictionary = {}
@@ -68,8 +70,9 @@ class RuleBasedClassifier:
                 correctly_predicted += 1
             else:
                 incorrectly_predicted += 1
-        
+
         return correctly_predicted / (correctly_predicted + incorrectly_predicted)
+
 
 if __name__ == "__main__":
     classifier = RuleBasedClassifier()
@@ -78,7 +81,7 @@ if __name__ == "__main__":
     positives = csv.loc[csv["target"] == 4]["text"].tolist()
     negatives = csv.loc[csv["target"] == 0]["text"].tolist()
 
-    #              Predicted Values  
+    #              Predicted Values
     #           Positive    Negative
     # Negative
     # Positive
@@ -97,12 +100,12 @@ if __name__ == "__main__":
             conf_matrix[1][0] += 1
         else:
             conf_matrix[0][0] += 1
-    
+
     accuracy = (conf_matrix[0][1] + conf_matrix[1][0]) / np.sum(conf_matrix)
 
     meta = {
-        'accuracy': accuracy,
-        'conf_matrix': conf_matrix,
+        "accuracy": accuracy,
+        "conf_matrix": conf_matrix,
     }
-    with open("./classifiers/meta_rulebased.pkl", 'wb') as file:
+    with open("./classifiers/meta_rulebased.pkl", "wb") as file:
         pickle.dump(meta, file)

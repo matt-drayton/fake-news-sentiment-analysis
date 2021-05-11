@@ -40,7 +40,7 @@ def _classify_tweets(tweets, raw_tweets, article_sources, classifier):
     """Private helper method to classify tweets using a determined classifier
 
     Args:
-        tweets: List of cleaned tweets 
+        tweets: List of cleaned tweets
         raw_tweets: Corresponding list of un-prepared tweets
         article_sources: Corresponding list of article URLs
         classifier: Object of model to be used. Must have a 'classify' and 'score' method
@@ -128,7 +128,7 @@ def run_classifiers(fake_tweets, real_tweets, classifiers):
 
 
 if __name__ == "__main__":
-    
+
     log("Loading real tweets")
     with open("real_cleaned.pkl", "rb") as file:
         real_tweets = pickle.load(file)
@@ -139,10 +139,9 @@ if __name__ == "__main__":
 
     naivebayes, svc, logistic = load_models()
     classifiers = {
-            "naive": naivebayes,
-            "svc": svc,
-            "logistic": logistic,
-            "rulebased": RuleBasedClassifier(),
+        "naive": naivebayes,
+        "svc": svc,
+        "logistic": logistic,
+        "rulebased": RuleBasedClassifier(),
     }
     run_classifiers(fake_tweets, real_tweets, classifiers)
-   

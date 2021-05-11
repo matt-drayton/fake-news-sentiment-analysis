@@ -7,9 +7,11 @@ from itertools import combinations
 from datetime import datetime
 
 LOG = True
+
+
 def log(text):
     """Log text with current timestamp. This method will only print if the LOG boolean, set in the utils
-    folder, is True. 
+    folder, is True.
 
     Args:
         text (str): The text to be printed
@@ -18,6 +20,7 @@ def log(text):
         now = datetime.now()
         current_time = now.strftime("%H:%M:%S")
         print(f"[{current_time}] {text}")
+
 
 def get_substrings(text):
     """Returns all possible substrings of a string
